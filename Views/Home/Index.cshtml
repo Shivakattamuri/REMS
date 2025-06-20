@@ -1,33 +1,76 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+<style>
+    .hero-section {
+        background-image: url('/Content/images/rems2.png'); /* 🔁 Replace with your image */
+        background-size: cover;
+        background-position: center;
+        height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+    }
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+    .hero-content {
+        max-width: 800px;
+        width: 100%;
+    }
+
+    .hero-text {
+        background-color: rgba(0, 51, 153, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+    }
+
+    .search-box {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: none;
+        backdrop-filter: blur(6px);
+    }
+
+        .search-box select,
+        .search-box button {
+            min-width: 180px;
+            margin: 8px;
+        }
+</style>
+
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h2 class="mb-2">Welcome to Real Estate Management System</h2>
+            <h3 class="mb-2">Find Your Favorite Property</h3>
+            <p class="lead">Find the best properties for Sale, Rent, or Investment</p>
+        </div>
+        <div class="text-center">
+            <div class="search-box d-flex flex-wrap justify-content-center">
+                <form method="get" action="/Property/Search" class="form-inline justify-content-center mt-4">
+                    <input class="form-control mx-2" type="text" name="city" placeholder="Enter City" />
+                    <select class="form-select">
+                        <option selected>Select Property Type</option>
+                        <option>Apartment</option>
+                        <option>Villa</option>
+                        <option>House</option>
+                        <option>Plots</option>
+                    </select>
+
+                    <select class="form-select">
+                        <option selected>Select Status</option>
+                        <option>Buy</option>
+                        <option>Sale</option>
+                        <option>Rent</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
     </div>
-</main>
+</div>

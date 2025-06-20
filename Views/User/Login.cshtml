@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .hero-section {
+        background-image: url('/Content/images/rems1.png');
+        background-size: cover;
+        background-position: center;
+        height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .login-box {
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        padding: 40px;
+        border-radius: 15px;
+        color: white;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+        .login-box label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: white;
+        }
+
+
+        .login-box input {
+            margin-bottom: 20px;
+        }
+
+        .login-box .btn {
+            font-weight: 600;
+        }
+</style>
+
+<div class="hero-section">
+    <div class="login-box">
+        <h2 class="mb-4">Login</h2>
+
+        <form method="post" action="/User/Login">
+            <div class="form-group text-start">
+                <label for="email">Email</label>
+                <input type="email" name="Email" class="form-control" id="email" required />
+            </div>
+
+            <div class="form-group text-start">
+                <label for="password">Password</label>
+                <input type="password" name="Password" class="form-control" id="password" required />
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </div>
+                <div class="col-6">
+                    <a href="/User/Register" class="btn btn-success w-100">Register</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿@* /Views/Account/Register.cshtml *@
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="text-center">Register</h2>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form method="post" action="/Account/Register">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="FullName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="Email" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="Password" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select name="Role" class="form-control">
+                    <option value="" disabled selected>Please select one</option>
+                    <option value="Buyer">Buyer</option>
+                    <option value="PropertyManager">Property Manager</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Register</button>
+        </form>
+    </div>
+</div>
