@@ -1,71 +1,152 @@
-﻿@{
+﻿@model REMS.Models.LoginViewModel
+@{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <style>
     .hero-section {
-        background-image: url('/Content/images/rems1.png');
+        background: url('/Content/images/rems1.png') no-repeat center center fixed;
         background-size: cover;
-        background-position: center;
-        height: 90vh;
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        text-align: center;
+        padding: 40px;
     }
 
     .login-box {
-        background-color: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(8px);
-        padding: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border-radius: 15px;
-        color: white;
+        padding: 40px;
         width: 100%;
         max-width: 400px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        color: #000;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        box-sizing: border-box;
     }
 
-        .login-box label {
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+    .form-group {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto 20px auto;
+        box-sizing: border-box;
+    }
+
+
+        .form-group label {
             display: block;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: white;
-        }
-
-
-        .login-box input {
-            margin-bottom: 20px;
-        }
-
-        .login-box .btn {
+            margin-bottom: 8px;
+            color: #fff;
             font-weight: 600;
+            font-size: 15px;
         }
+
+    .login-box input[type="text"],
+    .login-box input[type="password"],
+    .login-box input[type="email"] {
+        width: 100%;
+        max-width: 400px;
+        padding: 14px 20px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        box-sizing: border-box;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .login-box input::placeholder {
+        color: #888;
+    }
+
+    .btn-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .btn-login,
+    .btn-register {
+        flex: 1;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        color: #fff;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-login {
+        background-color: #007bff;
+    }
+
+    .btn-register {
+        background-color: #28a745;
+    }
+
+    .btn-login:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-register:hover {
+        background-color: #218838;
+    }
+
+    .field-validation-error {
+        display: none !important;
+    }
+
 </style>
 
 <div class="hero-section">
     <div class="login-box">
-        <h2 class="mb-4">Login</h2>
+        <h2>Login</h2>
 
-        <form method="post" action="/User/Login">
-            <div class="form-group text-start">
-                <label for="email">Email</label>
-                <input type="email" name="Email" class="form-control" id="email" required />
-            </div>
+        @using (Html.BeginForm("Login", "User", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
 
-            <div class="form-group text-start">
-                <label for="password">Password</label>
-                <input type="password" name="Password" class="form-control" id="password" required />
-            </div>
+        <div class="form-group full-width">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { placeholder = "Enter your email" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "field-validation-error" })
+        </div>
 
-            <div class="row mt-4">
-                <div class="col-6">
-                    <button type="submit" class="btn btn-primary w-100">Login</button>
-                </div>
-                <div class="col-6">
-                    <a href="/User/Register" class="btn btn-success w-100">Register</a>
-                </div>
+        <div class="form-group full-width">
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password, new { placeholder = "Enter your password" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "field-validation-error" })
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn-login">Login</button>
+            <a href="@Url.Action("Register", "User")" class="btn-register">Register</a>
+        </div>
+    }
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success mt-3">
+                @TempData["Message"]
             </div>
-        </form>
+        }
     </div>
 </div>

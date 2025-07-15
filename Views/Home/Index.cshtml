@@ -5,7 +5,7 @@
 
 <style>
     .hero-section {
-        background-image: url('/Content/images/rems2.png'); /* 🔁 Replace with your image */
+        background-image: url('/Content/images/rems3.jpg');
         background-size: cover;
         background-position: center;
         height: 90vh;
@@ -45,32 +45,30 @@
 
 <div class="hero-section">
     <div class="hero-content">
-        <div class="hero-text">
+        <div class="hero-text text-center text-white">
             <h2 class="mb-2">Welcome to Real Estate Management System</h2>
             <h3 class="mb-2">Find Your Favorite Property</h3>
             <p class="lead">Find the best properties for Sale, Rent, or Investment</p>
         </div>
+
         <div class="text-center">
             <div class="search-box d-flex flex-wrap justify-content-center">
-                <form method="get" action="/Property/Search" class="form-inline justify-content-center mt-4">
-                    <input class="form-control mx-2" type="text" name="city" placeholder="Enter City" />
-                    <select class="form-select">
-                        <option selected>Select Property Type</option>
-                        <option>Apartment</option>
-                        <option>Villa</option>
-                        <option>House</option>
-                        <option>Plots</option>
-                    </select>
+                @using (Html.BeginForm("Search", "Property", FormMethod.Get, new { @class = "form-inline justify-content-center mt-4" }))
+                {
+                    @Html.TextBox("city", null, new { @class = "form-control mx-2", placeholder = "Enter City" })
 
-                    <select class="form-select">
-                        <option selected>Select Status</option>
-                        <option>Buy</option>
-                        <option>Sale</option>
-                        <option>Rent</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
+                    @Html.DropDownList("propertyType", new SelectList(new[] {
+                        "Apartment", "Villa", "House", "Plots"
+                    }), "Select Property Type", new { @class = "form-select mx-2" })
+
+                    @Html.DropDownList("status", new SelectList(new[] {
+                        "Buy", "Sale", "Rent"
+                    }), "Select Status", new { @class = "form-select mx-2" })
+
+                    <button type="submit" class="btn btn-primary mx-2">Search</button>
+                }
             </div>
         </div>
     </div>
 </div>
+

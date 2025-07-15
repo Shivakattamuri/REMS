@@ -1,45 +1,197 @@
-﻿@* /Views/Property/Create.cshtml *@
+﻿@model REMS.Models.Property
+
 @{
     ViewBag.Title = "Add Property";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2 class="text-center">Add New Property</h2>
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <form method="post" action="/Property/Create">
+
+<style>
+    .form-background {
+        background: url('/Content/images/rems4.jpg') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }
+
+    .property-form {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 15px;
+        padding: 40px;
+        width: 100%;
+        max-width: 1000px;
+        color: #000;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+        .property-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #000;
+        }
+
+    .form-row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .form-group {
+        flex: 1;
+        min-width: 250px;
+        margin-bottom: 15px;
+    }
+
+    .form-control, .input-large {
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    .wide-field {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .no-resize {
+        resize: none;
+    }
+
+    .submit-button {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+        .submit-button .btn {
+            width: 140px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+    .checkbox-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+        .checkbox-grid label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 1 1 25%;
+            font-weight: 500;
+        }
+</style>
+
+
+<div class="form-background">
+    @using (Html.BeginForm("Create", "Property", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+    <div class="property-form">
+        <h2>Add Property</h2>
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
+
+vxxx
+        <div class="form-group full-width">
+            @Html.LabelFor(m => m.Title)
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control wide-field", placeholder = "Enter Property Title" })
+        </div>
+
+        <div class="form-group full-width">
+            @Html.LabelFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control wide-field no-resize", rows = 4, placeholder = "Enter Property Description" })
+        </div>
+
+
+        <div class="form-row">
             <div class="form-group">
-                <label>Title</label>
-                <input type="text" name="Title" class="form-control" required />
+                @Html.Label("Type")
+                @Html.DropDownListFor(m => m.PropertyTypeId,
+                         new SelectList(new[] { "House", "Apartment", "Villa", "Plot" }),
+                         "-- Select Type --",
+                         new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label>Description</label>
-                <textarea name="Description" class="form-control" rows="4" required></textarea>
+                @Html.Label("Status")
+                @Html.DropDownListFor(m => m.Status,
+                         new SelectList(new[] { "Sale", "Rent" }),
+                         "-- Select Status --",
+                         new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label>Location</label>
-                <input type="text" name="Location" class="form-control" required />
+                @Html.Label("Location")
+                @Html.TextBoxFor(m => m.Location, new { @class = "form-control", placeholder = "Location" })
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">@Html.Label("Bedrooms") @Html.TextBox("Bedrooms", null, new { @class = "form-control" })</div>
+            <div class="form-group">@Html.Label("Bathrooms") @Html.TextBox("Bathrooms", null, new { @class = "form-control" })</div>
+            <div class="form-group">@Html.Label("Floors") @Html.TextBox("Floors", null, new { @class = "form-control" })</div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">@Html.Label("Area") @Html.TextBox("Area", null, new { @class = "form-control", placeholder = "sq ft" })</div>
+            <div class="form-group">@Html.Label("Size") @Html.TextBox("Size", null, new { @class = "form-control", placeholder = "sq ft" })</div>
+            <div class="form-group">@Html.LabelFor(m => m.Price, "Price*") @Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number" })</div>
+        </div>
+
+        <div class="form-group full-width">
+            <label>Property Features</label>
+            <div class="checkbox-grid">
+                @{
+                    var features = new[] { "Center Cooling", "Balcony", "Pet Friendly", "Barbeque", "Fire Alarm", "Modern Kitchen", "Storage", "Dryer", "Heating", "Pool", "Laundry", "Gym", "Elevator", "Dish Washer", "Emergency Exit" };
+                    foreach (var feature in features)
+                    {
+                        <label><input type="checkbox" name="Features" value="@feature" /> @feature</label>
+                    }
+                }
+            </div>
+        </div>
+
+        <label>Property Location</label>
+        <div class="form-row">
+            <div class="form-group">@Html.Label("Address*") @Html.TextBox("Address", null, new { @class = "form-control" })</div>
+            <div class="form-group">@Html.Label("City") @Html.TextBox("City", null, new { @class = "form-control" })</div>
+            <div class="form-group">@Html.Label("Zip / Postal Code") @Html.TextBox("Zip", null, new { @class = "form-control" })</div>
+        </div>
+        <label>Property Images</label>
+        <div class="form-row">
+            <div class="form-group">
+                @Html.Label("Image 1")
+                <input type="file" name="Image1" accept="image/*" class="form-control" />
             </div>
             <div class="form-group">
-                <label>Price</label>
-                <input type="number" name="Price" class="form-control" required />
+                @Html.Label("Image 2")
+                <input type="file" name="Image2" accept="image/*" class="form-control" />
             </div>
             <div class="form-group">
-                <label>Property Type</label>
-                <select name="PropertyTypeId" class="form-control">
-                    <option>Apartment</option>
-                    <option>Villa</option>
-                    <option>Plot</option>
-                </select>
+                @Html.Label("Image 3")
+                <input type="file" name="Image3" accept="image/*" class="form-control" />
             </div>
-            <div class="form-group">
-                <label>Sale/Rent</label>
-                <select name="Status" class="form-control">
-                    <option>Sale</option>
-                    <option>Rent</option>
-                    <option>Both</option>
-                </select>
-            </div>
+        </div>
+
+
+        <div class="submit-button">
             <button type="submit" class="btn btn-success">Submit</button>
-        </form>
+        </div>
     </div>
+    }
 </div>

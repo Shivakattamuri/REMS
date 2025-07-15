@@ -1,33 +1,159 @@
-﻿@* /Views/Account/Register.cshtml *@
+﻿
+@model REMS.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2 class="text-center">Register</h2>
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <form method="post" action="/Account/Register">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" name="FullName" class="form-control" required />
+<style>
+.hero-section {
+    background: url('/Content/images/rems1.png') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.register-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 15px;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    color: #000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+}
+
+.register-box h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+.form-group {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 20px auto;
+    box-sizing: border-box;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.register-box input[type="text"],
+.register-box input[type="password"],
+.register-box input[type="email"],
+.register-box input[type="phone"] {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto;
+}
+
+.register-box input::placeholder {
+    color: #888;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.btn-register {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    color: forestgreen;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register {
+    background-color: green;
+}
+
+.btn-register:hover {
+    background-color: green;
+}
+
+.field-validation-error {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+}
+</style>
+
+<div class="hero-section">
+    <div class="register-box">
+        <h2 class="text-center">Register</h2>
+
+        @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "w-100" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group mx-auto" style="max-width: 300px;">
+                @Html.LabelFor(m => m.FullName, new { @class = "fw-bold" })
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FullName)
             </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="Email" class="form-control" required />
+
+            <div class="form-group mx-auto" style="max-width: 300px;">
+                @Html.LabelFor(m => m.Email, new { @class = "fw-bold" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email" })
+                @Html.ValidationMessageFor(m => m.Email)
             </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="Password" class="form-control" required />
+            <div class="form-group mx-auto" style="max-width: 300px;">
+                @Html.LabelFor(m => m.Phone , new { @class = "fw-bold" })
+                @Html.TextBoxFor(m => m.Phone, new { type = "phone" })
+                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "field-validation-error" })
             </div>
-            <div class="form-group">
-                <label>Role</label>
-                <select name="Role" class="form-control">
-                    <option value="" disabled selected>Please select one</option>
-                    <option value="Buyer">Buyer</option>
-                    <option value="PropertyManager">Property Manager</option>
-                </select>
+            <div class="form-group mx-auto" style="max-width: 300px;">
+                @Html.LabelFor(m => m.Password, new { @class = "fw-bold" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Password)
             </div>
-            <button type="submit" class="btn btn-success btn-block">Register</button>
-        </form>
+
+            <div class="form-group mx-auto" style="max-width: 300px;">
+                @Html.LabelFor(m => m.ConfirmPassword , new { @class = "fw-bold" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "field-validation-error" })
+            </div>
+
+            <div class="form-group mx-auto" style="max-width: 300px;">
+                @Html.LabelFor(m => m.Role, new { @class = "fw-bold" })
+                @Html.DropDownListFor(m => m.Role, (SelectList)ViewBag.RoleList, "-- Select Role --",
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Role)
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" style="width: 300px;">Register</button>
+            </div>
+        }
     </div>
 </div>
+
